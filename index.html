@@ -45,17 +45,17 @@
   <div class="mt-8 w-full flex justify-center">
     <div class="w-[65vw] flex text-2xl">
       <div class="font-extralight">
-        Start Time: <span id="start" class="text-3xl px-2 font-light"></span>
+        Start Time: <span id="start" class="text-[3rem] px-2 font-light"></span>
       </div>
       <div class="flex-grow"></div>
       <div class="font-extralight">
-        End Time: <span id="end" class="text-3xl px-2 font-light"></span>
+        End Time: <span id="end" class="text-[3rem] px-2 font-light"></span>
       </div>
     </div>
   </div>
 
   <div class="my-8 w-full flex justify-center">
-    <div id="timer" class="font-thin text-[5rem] leading-none">00:00:00</div>
+    <div id="clock" class="font-thin text-[5rem] leading-none">00:00:00</div>
   </div>
 
   <div id="passwd" class="hidden mb-6 w-full flex justify-center">
@@ -100,6 +100,19 @@
         const endTime = new Date(date.getTime() + duration * 60000);
         end = endTime.getHours().toString().padStart(2, '0') + endTime.getMinutes().toString().padStart(2, '0');
       }
+    }
+
+    function updateClock() {
+      const now = new Date();
+      let hours = now.getHours();
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      const seconds = now.getSeconds().toString().padStart(2, '0');
+      
+      // Construct display string
+      const displayString = `${hours.toString().padStart(2, '0')}:${minutes}:${seconds}`;
+      
+      // Update the clock element
+      document.getElementById('clock').textContent = displayString;
     }
 
     function showPassword() {
@@ -185,7 +198,10 @@
       document.getElementById('start').innerHTML = formatTime(start);
       document.getElementById('end').innerHTML = formatTime(end);
 
-      runUpdateTimer();
+      // runUpdateTimer();
+
+      updateClock();
+      setInterval(updateClock, 1000); // update every second
 
       refreshClarifications();
       setInterval(refreshClarifications, 10000); // every 10 seconds
